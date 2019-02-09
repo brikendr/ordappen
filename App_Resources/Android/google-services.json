@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "363809292586",
+    "firebase_url": "https://ordappen.firebaseio.com",
+    "project_id": "ordappen",
+    "storage_bucket": "ordappen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363809292586:android:337d724d38474802",
+        "android_client_info": {
+          "package_name": "io.brikend.ordappen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "363809292586-t5u7ve3eh1th5r5jk0fen4f1n25lgnri.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAywc_e6L_Kqa2Kk9U7aZWhn5Ng2Xz_xCI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
