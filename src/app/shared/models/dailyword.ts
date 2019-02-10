@@ -1,12 +1,13 @@
-export class Type {
+export class DailyWord {
   id?: string;
-  name: string;
+  dictionaryId: string;
 
   constructor(options: any) {
     if (options.id) {
       this.id = options.id;
     }
 
-    this.name = options.name;
+    this.dictionaryId = options.dictionary_id;
   }
 }
+

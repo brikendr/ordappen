@@ -1,0 +1,26 @@
+<GridLayout rows="2* 4* 3*" *ngIf="!isLoading">
+  <FlexboxLayout flexDirection="column" row="0" justifyContent="space-around" alignItems="center">
+    <Label class="subtitle semi-bold" [text]="word.type.toUpperCase()"></Label>
+  </FlexboxLayout>
+
+  <FlexboxLayout row="1" justifyContent="space-around" flexDirection="column" alignItems="center">
+    <StackLayout>
+      <Label [text]="word.description" [fontSize]="getFocusWordSize(word.description.length)" class="focus-word"
+        textWrap="true"></Label>
+      <Button class="hr thick"></Button>
+    </StackLayout>
+  </FlexboxLayout>
+
+  <GridLayout row="2" rows="* 3*" class="explanation-wrapper">
+    <StackLayout row="0">
+      <Label text="Forklaring" class="h3 regular spanned"></Label>
+      <Button class="hr thin"></Button>
+    </StackLayout>
+    <TextView row="1" editable="false" class="desc regular">
+      <FormattedString>
+        <Span [text]="word.explanationEng"></Span>
+      </FormattedString>
+    </TextView>
+  </GridLayout>
+</GridLayout>
+<ActivityIndicator [busy]="isLoading"></ActivityIndicator>

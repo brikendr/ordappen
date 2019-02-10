@@ -8,11 +8,11 @@
 //Action bar
 .action-item,
 NavigationButton {
-    color: $ab-color;
+	color: $ab-color;
 }
 
 .action-item:disabled {
-    color: rgba($ab-color, 0.5);
+	color: rgba($ab-color, 0.5);
 }
 
 Slider {
@@ -21,13 +21,45 @@ Slider {
 }
 
 .text {
-    color: $blue-dark;
+	color: $blue-dark;
 }
 
 .text-primary {
-    color: $accent-dark;
+	color: $accent-dark;
 }
 
 .text-secondary {
-    color: $blue-50;
+	color: $blue-50;
+}
+
+.extra-bold{
+	font-family: "Assistant-ExtraBold","Assistant ExtraBold";
+	/* font-family: 'Assistant', sans-serif; */
+	font-weight: 800;
+}
+
+.bold{
+	font-family: "Assistant-Bold","Assistant";
+	/* font-family: 'Assistant', sans-serif; */
+	font-weight: 700;
+}
+
+.semi-bold {
+	font-family: "Assistant-SemiBold","Assistant SemiBold";
+	/* font-family: 'Assistant', sans-serif; */
+	font-weight: 600;
+}
+
+.regular {
+	font-family: "Assistant-SemiBold","Assistant Regular";
+	/* font-family: 'Assistant', sans-serif; */
+	font-weight: 400;
+}
+
+.align-center { 
+	text-align: center; 
+}
+
+.uppercase {
+	text-transform: uppercase;
 }

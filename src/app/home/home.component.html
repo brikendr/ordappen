@@ -1,0 +1,19 @@
+<ActionBar title="" class="action-bar" flat="true">
+  <ActionItem ios.position="left" android.position="popup">
+    <StackLayout>
+      <Button class="fa menu-icon" text="&#xf0c9;" fontSize="35" (tap)="toggleMenu()"></Button>
+    </StackLayout>
+  </ActionItem>
+</ActionBar>
+
+<GridLayout class="homescreen">
+  <!-- main content -->
+  <router-outlet></router-outlet>
+
+  <!-- menu -->
+  <GridLayout #menuContainer rows="*, *, *, *" class="menu-container">
+    <Label *ngFor="let item of menuItems; let i = index" [row]="i" [text]="item.name" class="menu-item raised"
+      (tap)="navigateToPath(item.path)"></Label>
+  </GridLayout>
+
+</GridLayout>

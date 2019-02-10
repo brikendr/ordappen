@@ -1,0 +1,42 @@
+<GridLayout rows="* 5* *">
+  <Label row="0" class="text-center" text="Lag et nytt ord/uttryk!"></Label>
+
+  <FlexboxLayout row="1" justifyContent="space-around" flexDirection="column" alignItems="flex-start" padding="25">
+    <GridLayout rows="auto">
+      <TextField [(ngModel)]="description" borderBottomWidth="1" borderBottomColor="#cec8c8" padding="2"
+        hint="Beskrivelse" class="input">
+      </TextField>
+    </GridLayout>
+
+    <GridLayout rows="auto">
+      <TextField [(ngModel)]="explanation" borderBottomWidth="1" borderBottomColor="#cec8c8" padding="2"
+        hint="Forklaring på engelsk" class="input">
+      </TextField>
+    </GridLayout>
+
+    <GridLayout rows="auto">
+      <TextField [(ngModel)]="level" borderBottomWidth="1" borderBottomColor="#cec8c8" padding="2" hint="Nivå"
+        class="input"></TextField>
+    </GridLayout>
+
+    <GridLayout rows="auto auto">
+      <Label row="0" text="Type" opacity="0.4" fontSize="14" marginBottom="10"></Label>
+      <Label hint="Ord Type" row="1" class="scf-input" editable="false" [text]="wordType"
+        (tap)="onWordTypeTap()"></Label>
+    </GridLayout>
+
+    <GridLayout rows="auto">
+      <TextField [(ngModel)]="usageExample1" borderBottomWidth="1" borderBottomColor="#cec8c8" padding="2"
+        hint="Usage Example 1" class="input">
+      </TextField>
+    </GridLayout>
+    <GridLayout rows="auto">
+      <TextField [(ngModel)]="usageExample2" borderBottomWidth="1" borderBottomColor="#cec8c8" padding="2"
+        hint="Usage Example 2" class="input">
+      </TextField>
+    </GridLayout>
+  </FlexboxLayout>
+
+  <Button row="2" text="Lag Ordet" [isEnabled]="!isProcessing" (tap)="submit()" class="btn btn-primary m-t-20"></Button>
+</GridLayout>
+<ActivityIndicator [busy]="isProcessing"></ActivityIndicator>

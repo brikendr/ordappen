@@ -1,0 +1,36 @@
+@import '../../_app-variables.scss';
+
+.menu-icon {
+ margin-top: 10;
+}
+
+.actionbar-title {
+  color: #fff;
+  font-size: 20;
+  font-weight: normal;
+}
+
+.menu-item {
+  color: $text-color;
+  font-size: 22;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: center;
+  letter-spacing: 0.1;
+  padding: 30;
+}
+
+.menu-container {
+  background-color: $background-light;
+}
+
+.menu-icon {
+  color: $midnight-dark;
+}
+
+.action-bar {
+  background-color: $background-light;
+}
+.homescreen {
+  background-color: $background-light;
+}
