@@ -3,8 +3,7 @@ import * as firebase from "nativescript-plugin-firebase";
 
 import { Type } from "./../models/type.model";
 import { queryToModelOptions } from "./../utils/Conveniences";
-import DataFetchError from "./../utils/DataFetchError"
-
+import DataFetchError from "./../utils/DataFetchError";
 
 @Injectable({
   providedIn: "root"
@@ -12,16 +11,17 @@ import DataFetchError from "./../utils/DataFetchError"
 export class TypeService {
 
   getAllTypeDocs(): Promise<Array<Type>> {
-    return firebase.firestore.collection('types').get()
-      .then(querySnapshot => {
-        const types: Array<Type> = []
-        querySnapshot.forEach(doc => {
+    return firebase.firestore.collection("types").get()
+      .then((querySnapshot) => {
+        const types: Array<Type> = [];
+        querySnapshot.forEach((doc) => {
           const options = queryToModelOptions(doc.id, doc.data());
           const type = new Type(options);
           types.push(type);
-        })
+        });
+
         return types;
-      }).catch(error => {
+      }).catch((error) => {
         throw new DataFetchError(error);
       });
   }

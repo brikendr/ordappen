@@ -10,4 +10,3 @@ export class DailyWord {
     this.dictionaryId = options.dictionary_id;
   }
 }
-

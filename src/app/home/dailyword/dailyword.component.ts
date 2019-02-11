@@ -8,11 +8,11 @@ import { Dictionary } from "~/app/shared/models/dictionary.model";
   selector: "DailyWord",
   moduleId: module.id,
   templateUrl: "./dailyword.component.html",
-  styleUrls: ['./dailyword.component.scss']
+  styleUrls: ["./dailyword.component.scss"]
 })
 export class DailyWordComponent implements OnInit, OnDestroy {
   private _isLoading: boolean = false;
-  private _word: Dictionary
+  private _word: Dictionary;
 
   constructor(
     private _dailyWordService: DailyWordService,
@@ -20,24 +20,23 @@ export class DailyWordComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    console.log('------ Loading DATA!')
-    this._isLoading = true
+    this._isLoading = true;
     this._dailyWordService.subscribeTodaysWord()
       .then((dailyWord: DailyWord) => this._dictionaryService.getWordDetails(dailyWord.dictionaryId)
         .then((word: Dictionary) => {
           this._word = word;
-          this._isLoading = false
+          this._isLoading = false;
         }).catch((e: any) => {
-          this._isLoading = false
+          this._isLoading = false;
         }))
       .catch((e: any) => {
-        this._isLoading = false
-      })
+        this._isLoading = false;
+      });
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
+    // Called once, before the instance is destroyed.
+    // Add 'implements OnDestroy' to the class.
     this._dailyWordService.unsubscribe();
   }
 
@@ -58,7 +57,7 @@ export class DailyWordComponent implements OnInit, OnDestroy {
       case (wordLength > 15 && wordLength <= 30):
         return 20;
       default:
-        return 10
+        return 10;
     }
   }
 }

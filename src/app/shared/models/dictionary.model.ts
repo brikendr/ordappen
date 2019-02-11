@@ -4,8 +4,8 @@ export class Dictionary {
   explanationEng: string;
   level: string;
   type: string;
-  usageExamples: Array<string>
-  userId: string
+  usageExamples: Array<string>;
+  userId: string;
 
   constructor(options: any) {
     if (options.id) {
@@ -17,7 +17,6 @@ export class Dictionary {
     this.level = options.level;
     this.type = options.type;
     this.usageExamples = options.usage_examples;
-    this.userId = options.user_id
+    this.userId = options.user_id;
   }
 }
-

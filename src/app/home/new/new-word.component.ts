@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { action } from "tns-core-modules/ui/dialogs";
 import { TypeService } from "~/app/shared/services/type.service";
 import { Type } from "~/app/shared/models/type.model";
@@ -10,7 +10,7 @@ import { RouterExtensions } from "nativescript-angular";
   selector: "NewWord",
   moduleId: module.id,
   templateUrl: "./new-word.component.html",
-  styleUrls: ['./new-word.component.css']
+  styleUrls: ["./new-word.component.css"]
 })
 export class NewWordComponent implements OnInit {
   description: string = "";
@@ -22,7 +22,6 @@ export class NewWordComponent implements OnInit {
 
   private _isProcessing: boolean = false;
   private _types: Array<Type> = [];
-
 
   constructor(
     private _typeService: TypeService,
@@ -36,20 +35,20 @@ export class NewWordComponent implements OnInit {
     this._typeService.getAllTypeDocs()
       .then((typeList: Array<Type>) => {
         this._types = typeList;
-        this.wordType = typeList[0].name
+        this.wordType = typeList[0].name;
         this._isProcessing = false;
       }).catch((error: any) => {
-        alert('Something went wrong! Sorry!');
+        alert("Something went wrong! Sorry!");
         this._isProcessing = false;
       });
   }
 
   onWordTypeTap(): void {
-    var typeDescriptions = this._types.map((item) => {
+    const typeDescriptions = this._types.map((item) => {
       return item.name.toUpperCase();
     });
 
-    let options = {
+    const options = {
       title: "Ord Type",
       message: "Velg ord type fra listen",
       cancelButtonText: "Cancel",
@@ -57,7 +56,7 @@ export class NewWordComponent implements OnInit {
     };
 
     action(options).then((result) => {
-      this.wordType = (result == 'Cancel') ? this.wordType : result;
+      this.wordType = (result === "Cancel") ? this.wordType : result;
     });
   }
 
@@ -73,14 +72,14 @@ export class NewWordComponent implements OnInit {
     };
     this._dictionaryService.saveNewWord(opts)
       .then(() => {
-        this.routerExtensions.navigate(['/'], {
+        this.routerExtensions.navigate(["/"], {
           animated: false,
           clearHistory: true
         });
       }).catch((error: any) => {
-        alert('Something went wrong! Sorry!');
+        alert("Something went wrong! Sorry!");
         this._isProcessing = false;
-      })
+      });
   }
 
   get isProcessing(): boolean {

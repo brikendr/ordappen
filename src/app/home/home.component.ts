@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from "@angular/core";
-import { RouterExtensions } from 'nativescript-angular';
+import { RouterExtensions } from "nativescript-angular";
 import { AnimationCurve } from "ui/enums";
 
 @Component({
@@ -9,27 +9,26 @@ import { AnimationCurve } from "ui/enums";
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit, AfterViewInit {
-  private currentPath: string;
-
   @ViewChild("menuContainer") menuContainer: ElementRef;
   menuIsOpen: boolean = false;
-  menuItems: { name: string, path: string, color: string }[] = [
-    { name: 'Hjem', path: 'home/dailyword', color: '#72DEFF' },
-    { name: 'Ny Ord', path: 'home/new-word', color: '#3AEFBA' },
-    { name: 'Profile', path: 'home/profile', color: '#3AEFBA' },
-    { name: 'Close', path: '', color: '#fff' },
+  menuItems: Array<{ name: string, path: string, color: string }> = [
+    { name: "Hjem", path: "home/dailyword", color: "#72DEFF" },
+    { name: "Ny Ord", path: "home/new-word", color: "#3AEFBA" },
+    { name: "Profile", path: "home/profile", color: "#3AEFBA" },
+    { name: "Close", path: "", color: "#fff" }
   ];
+
+  private currentPath: string;
 
   constructor(
     private routerExtensions: RouterExtensions
   ) { }
 
   ngOnInit(): void {
-    console.log('-=--------------- ON INIT!')
+    // Init method!
   }
 
   ngAfterViewInit(): void {
-    console.log('-=--------------- AFTER INIT!')
     this.initializeMenu();
   }
 
@@ -37,8 +36,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     // close menu if the path is the same as current path or path is empty (close has empty path)
     if (!path || path === this.currentPath) {
       this.closeMenu();
-    }
-    else {
+    } else {
       this.routerExtensions.navigate([path]).then(
         () => {
           this.closeMenu();
@@ -59,8 +57,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   toggleMenu() {
     if (this.menuIsOpen) {
       this.closeMenu();
-    }
-    else {
+    } else {
       this.openMenu();
     }
   }

@@ -1,11 +1,9 @@
 import { Injectable } from "@angular/core";
 import * as firebase from "nativescript-plugin-firebase";
 
-
 import { queryToModelOptions } from "./../utils/Conveniences";
-import DataFetchError from "./../utils/DataFetchError"
+import DataFetchError from "./../utils/DataFetchError";
 import { Dictionary } from "../models/dictionary.model";
-
 
 @Injectable({
   providedIn: "root"
@@ -18,8 +16,10 @@ export class DictionaryService {
         if (doc.exists) {
           const opts = queryToModelOptions(doc.id, doc.data());
           const dictionaryWord = new Dictionary(opts);
+
           return dictionaryWord;
         } else {
+
           return undefined;
         }
       }).catch((error) => {
@@ -28,7 +28,7 @@ export class DictionaryService {
   }
 
   saveNewWord(wordOpts: any) {
-    return firebase.firestore.collection('dictionary').add(wordOpts)
+    return firebase.firestore.collection("dictionary").add(wordOpts)
       .then((docRef: any) => {
         return Promise.resolve();
       }).catch((error: any) => {
