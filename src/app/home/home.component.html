@@ -11,7 +11,7 @@
   <router-outlet></router-outlet>
 
   <!-- menu -->
-  <GridLayout #menuContainer rows="*, *, *, *" class="menu-container">
+  <GridLayout #menuContainer [rows]="gridRowLayout" class="menu-container">
     <Label *ngFor="let item of menuItems; let i = index" [row]="i" [text]="item.name" class="menu-item raised"
       (tap)="navigateToPath(item.path)"></Label>
   </GridLayout>

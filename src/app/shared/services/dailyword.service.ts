@@ -10,11 +10,11 @@ import { DailyWord } from "../models/DailyWord";
 export class DailyWordService {
   private dailywordSnapshot: any;
 
-  subscribeTodaysWord(): Promise<DailyWord> {
+  subscribeTodaysWord(userUid: string): Promise<DailyWord> {
     return new Promise((resolve, reject) => {
-      this.dailywordSnapshot = firebase.firestore.collection("dailyword").doc("today")
+      this.dailywordSnapshot = firebase.firestore.collection("dailyword").doc(userUid)
         .onSnapshot((doc) => {
-          const options = queryToModelOptions(doc.id, doc.data());
+          const options = queryToModelOptions(doc);
           const dailyWord = new DailyWord(options);
           resolve(dailyWord);
         });

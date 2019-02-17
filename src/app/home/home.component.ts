@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular";
 import { AnimationCurve } from "ui/enums";
+import { UserService } from "../shared/services/user.service";
+import { User } from "../shared/models/user.model";
 
 @Component({
   selector: "Home",
@@ -11,21 +13,33 @@ import { AnimationCurve } from "ui/enums";
 export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild("menuContainer") menuContainer: ElementRef;
   menuIsOpen: boolean = false;
-  menuItems: Array<{ name: string, path: string, color: string }> = [
-    { name: "Hjem", path: "home/dailyword", color: "#72DEFF" },
-    { name: "Ny Ord", path: "home/new-word", color: "#3AEFBA" },
-    { name: "Profile", path: "home/profile", color: "#3AEFBA" },
-    { name: "Close", path: "", color: "#fff" }
-  ];
+  menuItems: Array<{ name: string, path: string }> = [];
 
   private currentPath: string;
 
   constructor(
-    private routerExtensions: RouterExtensions
+    private _router: RouterExtensions,
+    private _userService: UserService
   ) { }
 
   ngOnInit(): void {
-    // Init method!
+    this._userService.isUserLoggedIn().then((loggedIn: boolean) => {
+      if (!loggedIn) {
+        return this._router.navigate(["/login"], {
+          clearHistory: true
+        });
+      }
+      this._userService.getFirestoreUser().then((user: User) => {
+        this.menuItems.push({ name: "Hjem", path: "home/dailyword" });
+        user.writePriviledges ? this.menuItems.push({ name: "Nytt Ord", path: "home/new-word" }) : undefined;
+        this.menuItems.push({ name: "Profil", path: "home/profile" });
+        this.menuItems.push({ name: "Logg ut", path: "logout" });
+        this.menuItems.push({ name: "Lukk", path: "" });
+      }).catch((err: any) => {
+        // TODO: inform user
+        console.log('----- Could not get user infor');
+      })
+    })
   }
 
   ngAfterViewInit(): void {
@@ -33,11 +47,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   navigateToPath(path: string) {
-    // close menu if the path is the same as current path or path is empty (close has empty path)
+    if (path === "logout") {
+      return this.logout();
+    }
     if (!path || path === this.currentPath) {
       this.closeMenu();
     } else {
-      this.routerExtensions.navigate([path]).then(
+      this._router.navigate([path]).then(
         () => {
           this.closeMenu();
           this.currentPath = path;
@@ -82,5 +98,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
       () => {
         this.menuIsOpen = false;
       });
+  }
+
+  get gridRowLayout() {
+    let layout = "";
+    for (let i = 0; i < this.menuItems.length; i++) {
+      layout += "*,";
+    }
+    return layout.slice(0, layout.length - 1);
+  }
+
+  logout() {
+    this._userService.logOut();
+    this._router.navigate(["/login"], {
+      clearHistory: true
+    });
   }
 }

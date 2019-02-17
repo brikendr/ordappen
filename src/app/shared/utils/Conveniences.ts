@@ -1,6 +1,7 @@
-export const queryToModelOptions = (docId: string, queryData: any) => {
+export const queryToModelOptions = (doc: any) => {
+  const data = doc.data()
   return {
-    id: docId,
-    ...queryData
+    id: doc.id,
+    ...data
   };
 };

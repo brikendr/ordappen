@@ -1,0 +1,24 @@
+<GridLayout rows="auto, *" class="intro">
+  <GridLayout row="0" class="m-t-30">
+    <StackLayout class="order" [class.order-slide-in]="opening" [class.order-slide-out]="!opening">
+      <Label class="header" text="ORD"></Label>
+    </StackLayout>
+    <StackLayout class="taker" [class.taker-slide-in]="opening" [class.taker-slide-out]="!opening">
+      <Label class="header" text="APPEN"></Label>
+    </StackLayout>
+  </GridLayout>
+
+  <FlexboxLayout row="1"  class="welcome text-center" flexDirection="column" width="100%" justifyContent="center" >
+    <StackLayout class="center details">
+      <StackLayout orientation="horizontal" horizontalAlignment="center">
+        <Label text="Welcome" class="title text-center m-r-5"></Label>
+      </StackLayout>
+      <Label text="Proceed with google sign in" class="sub-title text-center m-t-20"></Label>
+      
+      <GridLayout rows="auto" class="overlay center">
+        <Stacklayout class="m-x-15 button-background" [class.overlay-zoom-in]="opening" [class.overlay-zoom-out]="!opening"></Stacklayout>
+        <Button [class.fade-out]="!opening" text="SIGN IN" class="m-x-15 welcome-btn" (tap)="onGoogleLogin()"></Button>
+      </GridLayout>
+    </StackLayout>
+  </FlexboxLayout>
+</GridLayout>

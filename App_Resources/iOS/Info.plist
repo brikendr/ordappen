@@ -47,5 +47,18 @@
 	<string>UIStatusBarStyleLightContent</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CFBundleURLTypes</key>
+	<array>
+			<dict>
+					<key>CFBundleURLName</key>
+					<string>io.brikend.ordappen</string>
+			</dict>
+			<dict>
+					<key>CFBundleURLSchemes</key>
+					<array>
+							<string>com.googleusercontent.apps.363809292586-753c04msbuh0hh9n91i2cso0f370qle7</string>
+					</array>
+			</dict>
+	</array>
 </dict>
 </plist>

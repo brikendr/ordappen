@@ -14,7 +14,7 @@ export class DictionaryService {
     return firebase.firestore.collection("dictionary").doc(docRefId)
       .get().then((doc) => {
         if (doc.exists) {
-          const opts = queryToModelOptions(doc.id, doc.data());
+          const opts = queryToModelOptions(doc);
           const dictionaryWord = new Dictionary(opts);
 
           return dictionaryWord;
@@ -36,3 +36,13 @@ export class DictionaryService {
       });
   }
 }
+
+export interface Item {
+  id: number;
+  description: string;
+  explanation: string;
+  level: string;
+  usage: string;
+}
+
+

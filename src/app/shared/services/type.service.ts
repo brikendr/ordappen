@@ -15,7 +15,7 @@ export class TypeService {
       .then((querySnapshot) => {
         const types: Array<Type> = [];
         querySnapshot.forEach((doc) => {
-          const options = queryToModelOptions(doc.id, doc.data());
+          const options = queryToModelOptions(doc);
           const type = new Type(options);
           types.push(type);
         });

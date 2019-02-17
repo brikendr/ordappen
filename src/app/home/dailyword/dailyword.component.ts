@@ -3,6 +3,7 @@ import { DailyWordService } from "~/app/shared/services/dailyword.service";
 import { DailyWord } from "~/app/shared/models/DailyWord";
 import { DictionaryService } from "~/app/shared/services/dictionary.service";
 import { Dictionary } from "~/app/shared/models/dictionary.model";
+import { UserService } from "~/app/shared/services/user.service";
 
 @Component({
   selector: "DailyWord",
@@ -16,22 +17,25 @@ export class DailyWordComponent implements OnInit, OnDestroy {
 
   constructor(
     private _dailyWordService: DailyWordService,
-    private _dictionaryService: DictionaryService
+    private _dictionaryService: DictionaryService,
+    private _userService: UserService
   ) { }
 
   ngOnInit(): void {
     this._isLoading = true;
-    this._dailyWordService.subscribeTodaysWord()
-      .then((dailyWord: DailyWord) => this._dictionaryService.getWordDetails(dailyWord.dictionaryId)
-        .then((word: Dictionary) => {
-          this._word = word;
+    this._userService.getUserUid().then((userUid: string) => {
+      this._dailyWordService.subscribeTodaysWord(userUid)
+        .then((dailyWord: DailyWord) => this._dictionaryService.getWordDetails(dailyWord.todaysWord)
+          .then((word: Dictionary) => {
+            this._word = word;
+            this._isLoading = false;
+          }).catch((e: any) => {
+            this._isLoading = false;
+          }))
+        .catch((e: any) => {
           this._isLoading = false;
-        }).catch((e: any) => {
-          this._isLoading = false;
-        }))
-      .catch((e: any) => {
-        this._isLoading = false;
-      });
+        });
+    })
   }
 
   ngOnDestroy(): void {

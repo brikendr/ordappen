@@ -1,42 +1,55 @@
-<GridLayout rows="* 5* *">
-  <Label row="0" class="text-center" text="Lag et nytt ord/uttryk!"></Label>
+<GridLayout rows="50, *" class="main-container">
+  <AbsoluteLayout row="1">
+    <StackLayout width="100%" #container>
+      <GridLayout rows="auto, auto" class="item-detail" (tap)="selectItemDetail(description, 'description')"
+        [ngClass]="{'selected': isSelected('description'), 'deselected': !isSelected('description') }" height="100">
+        <Label row="0" class="title" text="Beskrivelse"></Label>
+        <TextField class="standard-input descrption" row="1" [(ngModel)]='item.description' returnKeyType="next" #description
+          (returnPress)="selectItemDetail(explanation)" (focus)="selectItemDetail(description, 'description')" autocorrect="false"
+          autocapitalizationType="none"></TextField>
+        <StackLayout rowSpan="3" *ngIf="currentDetailType !== 'description'" class="unselected-overlay"></StackLayout>
+      </GridLayout>
+      
+      <GridLayout rows="auto, auto" class="item-detail" (tap)="selectItemDetail(explanation, 'explanation')"
+        [ngClass]="{'selected': isSelected('explanation'), 'deselected': !isSelected('explanation') }" height="100">
+        <Label row="0" colSpan="2" class="title" text="Forklaring"></Label>
+        <TextField class="standard-input explanation" row="1" [(ngModel)]='item.explanation' returnKeyType="next" #explanation
+          (returnPress)="selectItemDetail(level)" (focus)="selectItemDetail(explanation, 'explanation')" autocorrect="false"
+          autocapitalizationType="none"></TextField>
+        <StackLayout rowSpan="3" *ngIf="currentDetailType !== 'explanation'" class="unselected-overlay"></StackLayout>
+      </GridLayout>
 
-  <FlexboxLayout row="1" justifyContent="space-around" flexDirection="column" alignItems="flex-start" padding="25">
-    <GridLayout rows="auto">
-      <TextField [(ngModel)]="description" borderBottomWidth="1" borderBottomColor="#cec8c8" padding="2"
-        hint="Beskrivelse" class="input">
-      </TextField>
-    </GridLayout>
+      <GridLayout rows="auto, auto" class="item-detail" (tap)="selectItemDetail(level, 'level')"
+        [ngClass]="{'selected': isSelected('level'), 'deselected': !isSelected('level') }" height="100">
+        <Label row="0" colSpan="2" class="title" text="Course Level"></Label>
+        <TextField class="standard-input level" row="1" [(ngModel)]='item.level' returnKeyType="next" #level
+          (returnPress)="selectItemDetail(examples)" (focus)="selectItemDetail(level, 'level')" autocorrect="false"
+          autocapitalizationType="none"></TextField>
+        <StackLayout rowSpan="3" *ngIf="currentDetailType !== 'level'" class="unselected-overlay"></StackLayout>
+      </GridLayout>
 
-    <GridLayout rows="auto">
-      <TextField [(ngModel)]="explanation" borderBottomWidth="1" borderBottomColor="#cec8c8" padding="2"
-        hint="Forklaring på engelsk" class="input">
-      </TextField>
-    </GridLayout>
+      <GridLayout rows="auto, auto" class="item-detail examples-wrapper" (tap)="selectItemDetail(examples, 'examples')"
+        [ngClass]="{'selected': isSelected('examples'), 'deselected': !isSelected('examples') }" height="200">
+        <Label row="0" colSpan="2" class="title" text="Usage Examples"></Label>
+        <TextView class="standard-input examples" row="1" [(ngModel)]='item.usage' returnKeyType="next" #examples
+          (returnPress)="selectItemDetail(type)" (focus)="selectItemDetail(examples, 'examples')" autocorrect="false"
+          autocapitalizationType="none"></TextView>
+        <StackLayout rowSpan="3" *ngIf="currentDetailType !== 'examples'" class="unselected-overlay"></StackLayout>
+      </GridLayout>
 
-    <GridLayout rows="auto">
-      <TextField [(ngModel)]="level" borderBottomWidth="1" borderBottomColor="#cec8c8" padding="2" hint="Nivå"
-        class="input"></TextField>
-    </GridLayout>
+      <GridLayout rows="auto, auto" class="item-detail" (tap)="selectItemDetail(type, 'type')"
+        [ngClass]="{'selected': isSelected('type'), 'deselected': !isSelected('type') }" height="100">
+        <Label row="0" colSpan="2" class="title" text="Course type"></Label>
+        <Label row="1" class="selectable-label" editable="false" [text]="wordType" (tap)="onWordTypeTap()" #type></Label>
+        <StackLayout rowSpan="3" *ngIf="currentDetailType !== 'type'" class="unselected-overlay"></StackLayout>
+      </GridLayout>
 
-    <GridLayout rows="auto auto">
-      <Label row="0" text="Type" opacity="0.4" fontSize="14" marginBottom="10"></Label>
-      <Label hint="Ord Type" row="1" class="scf-input" editable="false" [text]="wordType"
-        (tap)="onWordTypeTap()"></Label>
-    </GridLayout>
-
-    <GridLayout rows="auto">
-      <TextField [(ngModel)]="usageExample1" borderBottomWidth="1" borderBottomColor="#cec8c8" padding="2"
-        hint="Usage Example 1" class="input">
-      </TextField>
-    </GridLayout>
-    <GridLayout rows="auto">
-      <TextField [(ngModel)]="usageExample2" borderBottomWidth="1" borderBottomColor="#cec8c8" padding="2"
-        hint="Usage Example 2" class="input">
-      </TextField>
-    </GridLayout>
-  </FlexboxLayout>
-
-  <Button row="2" text="Lag Ordet" [isEnabled]="!isProcessing" (tap)="submit()" class="btn btn-primary m-t-20"></Button>
+      <StackLayout >
+        <GridLayout class="m-x-15 m-y-5 save-order btn-container save">
+          <Button text="SAVE WORD" (tap)="submit(item)"></Button>
+        </GridLayout>
+      </StackLayout>
+    </StackLayout>
+  </AbsoluteLayout>
 </GridLayout>
 <ActivityIndicator [busy]="isProcessing"></ActivityIndicator>
