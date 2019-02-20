@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { DailyWordService } from "~/app/shared/services/dailyword.service";
-import { DailyWord } from "~/app/shared/models/DailyWord";
+import { DailyWord } from "~/app/shared/models/dailyword.model";
 import { DictionaryService } from "~/app/shared/services/dictionary.service";
 import { Dictionary } from "~/app/shared/models/dictionary.model";
 import { UserService } from "~/app/shared/services/user.service";
