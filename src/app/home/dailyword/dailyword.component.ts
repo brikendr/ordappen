@@ -1,9 +1,13 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
+import { finalize } from "rxjs/operators";
 import { DailyWordService } from "~/app/shared/services/dailyword.service";
 import { DailyWord } from "~/app/shared/models/dailyword.model";
 import { DictionaryService } from "~/app/shared/services/dictionary.service";
 import { Dictionary } from "~/app/shared/models/dictionary.model";
 import { UserService } from "~/app/shared/services/user.service";
+
+const firebase = require("nativescript-plugin-firebase/app");
 
 @Component({
   selector: "DailyWord",
@@ -13,35 +17,38 @@ import { UserService } from "~/app/shared/services/user.service";
 })
 export class DailyWordComponent implements OnInit, OnDestroy {
   private _isLoading: boolean = false;
+  private _dataSubscription: Subscription;
   private _word: Dictionary;
 
   constructor(
     private _dailyWordService: DailyWordService,
     private _dictionaryService: DictionaryService,
-    private _userService: UserService
+    private _userService: UserService,
   ) { }
 
   ngOnInit(): void {
-    this._isLoading = true;
-    this._userService.getUserUid().then((userUid: string) => {
-      this._dailyWordService.subscribeTodaysWord(userUid)
-        .then((dailyWord: DailyWord) => this._dictionaryService.getWordDetails(dailyWord.todaysWord)
-          .then((word: Dictionary) => {
-            this._word = word;
-            this._isLoading = false;
-          }).catch((e: any) => {
-            this._isLoading = false;
-          }))
-        .catch((e: any) => {
-          this._isLoading = false;
-        });
-    })
+    if (!this._dataSubscription) {
+      this._isLoading = true;
+      this._userService.getUserUid().then((userUid: string) => {
+        this._dataSubscription = this._dailyWordService.loadDailyWord(userUid)
+          .pipe(finalize(() => this._isLoading = false))
+          .subscribe((dailyWord: DailyWord) => this._dictionaryService.getWordDetails(dailyWord.todaysWord)
+            .then((word: Dictionary) => {
+              this._word = word;
+              this._isLoading = false;
+            }).catch((e: any) => {
+              this._isLoading = false;
+            })
+          );
+      });
+    }
   }
 
   ngOnDestroy(): void {
-    // Called once, before the instance is destroyed.
-    // Add 'implements OnDestroy' to the class.
-    this._dailyWordService.unsubscribe();
+    if (this._dataSubscription) {
+      this._dataSubscription.unsubscribe();
+      this._dataSubscription = null;
+    }
   }
 
   get isLoading(): boolean {

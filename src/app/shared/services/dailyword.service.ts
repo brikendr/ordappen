@@ -1,6 +1,7 @@
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 import * as firebase from "nativescript-plugin-firebase";
-
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
 import { queryToModelOptions } from "./../utils/Conveniences";
 import { DailyWord } from "../models/dailyword.model";
 
@@ -8,24 +9,24 @@ import { DailyWord } from "../models/dailyword.model";
   providedIn: "root"
 })
 export class DailyWordService {
-  private dailywordSnapshot: any;
 
-  subscribeTodaysWord(userUid: string): Promise<DailyWord> {
-    return new Promise((resolve, reject) => {
-      this.dailywordSnapshot = firebase.firestore.collection("dailyword").doc(userUid)
-        .onSnapshot((doc) => {
-          const options = queryToModelOptions(doc);
-          const dailyWord = new DailyWord(options);
-          const shouldUpdate = this.checkIfShouldUpdate(dailyWord);
-          if (shouldUpdate) {
-            this.setShouldUpdateProp(doc.id, shouldUpdate)
-            .then(() => resolve(dailyWord))
-            .catch((e: any) => reject(e));
-          } else {
-            resolve(dailyWord);
-          }
+  constructor(private _ngZone: NgZone) { }
+
+  loadDailyWord(userUid: string) {
+    return new Observable((subscriber: any) => {
+      firebase.firestore.collection("dailyword").doc(userUid)
+        .onSnapshot((doc: any) => {
+          this._ngZone.run(async () => {
+            const options = queryToModelOptions(doc);
+            const dailyWord = new DailyWord(options);
+            const shouldUpdate = this.checkIfShouldUpdate(dailyWord);
+            if (shouldUpdate) {
+              await this.setShouldUpdateProp(doc.id, shouldUpdate);
+            }
+            subscriber.next(dailyWord);
+          });
         });
-    });
+    }).pipe(catchError(this.handleErrors));
   }
 
   checkIfShouldUpdate(dailyWordRef: DailyWord): boolean {
@@ -42,9 +43,7 @@ export class DailyWordService {
     });
   }
 
-  unsubscribe(): void {
-    if (this.dailywordSnapshot) {
-      this.dailywordSnapshot();
-    }
+  private handleErrors(error: Response): Observable<never> {
+    return throwError(error);
   }
 }
