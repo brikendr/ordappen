@@ -23,22 +23,26 @@ export class DailyWordComponent implements OnInit, OnDestroy {
   constructor(
     private _dailyWordService: DailyWordService,
     private _dictionaryService: DictionaryService,
-    private _userService: UserService,
-  ) { }
+    private _userService: UserService
+  ) {}
 
   ngOnInit(): void {
     if (!this._dataSubscription) {
       this._isLoading = true;
       this._userService.getUserUid().then((userUid: string) => {
-        this._dataSubscription = this._dailyWordService.loadDailyWord(userUid)
-          .pipe(finalize(() => this._isLoading = false))
-          .subscribe((dailyWord: DailyWord) => this._dictionaryService.getWordDetails(dailyWord.todaysWord)
-            .then((word: Dictionary) => {
-              this._word = word;
-              this._isLoading = false;
-            }).catch((e: any) => {
-              this._isLoading = false;
-            })
+        this._dataSubscription = this._dailyWordService
+          .loadDailyWord(userUid)
+          .pipe(finalize(() => (this._isLoading = false)))
+          .subscribe((dailyWord: DailyWord) =>
+            this._dictionaryService
+              .getWordDetails(dailyWord.todaysWord)
+              .then((word: Dictionary) => {
+                this._word = word;
+                this._isLoading = false;
+              })
+              .catch((e: any) => {
+                this._isLoading = false;
+              })
           );
       });
     }
@@ -61,11 +65,11 @@ export class DailyWordComponent implements OnInit, OnDestroy {
 
   getFocusWordSize(wordLength: number) {
     switch (true) {
-      case (wordLength <= 5):
+      case wordLength <= 5:
         return 40;
-      case (wordLength > 5 && wordLength <= 15):
+      case wordLength > 5 && wordLength <= 15:
         return 30;
-      case (wordLength > 15 && wordLength <= 30):
+      case wordLength > 15 && wordLength <= 30:
         return 20;
       default:
         return 10;

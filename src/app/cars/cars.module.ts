@@ -12,26 +12,22 @@ import { CarListComponent } from "./car-list.component";
 import { CarsRoutingModule } from "./cars-routing.module";
 
 @NgModule({
-    imports: [
-        CarsRoutingModule,
-        NativeScriptCommonModule,
-        NativeScriptFormsModule,
-        NativeScriptUIListViewModule
-    ],
-    declarations: [
-        CarListComponent,
-        CarDetailComponent,
-        CarDetailEditComponent,
-        MyListSelectorComponent,
-        MyListSelectorModalViewComponent,
-        MyImageAddRemoveComponent
-    ],
-    entryComponents: [
-        MyListSelectorModalViewComponent
-    ],
-    providers: [],
-    schemas: [
-        NO_ERRORS_SCHEMA
-    ]
+  imports: [
+    CarsRoutingModule,
+    NativeScriptCommonModule,
+    NativeScriptFormsModule,
+    NativeScriptUIListViewModule
+  ],
+  declarations: [
+    CarListComponent,
+    CarDetailComponent,
+    CarDetailEditComponent,
+    MyListSelectorComponent,
+    MyListSelectorModalViewComponent,
+    MyImageAddRemoveComponent
+  ],
+  entryComponents: [MyListSelectorModalViewComponent],
+  providers: [],
+  schemas: [NO_ERRORS_SCHEMA]
 })
-export class CarsModule { }
+export class CarsModule {}

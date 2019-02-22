@@ -12,7 +12,7 @@ import { User } from "../shared/models/user.model";
   styleUrls: ["./login.component.scss"]
 })
 export class LoginComponent {
-  public opening = true;
+  opening = true;
 
   constructor(
     private _router: RouterExtensions,
@@ -20,29 +20,35 @@ export class LoginComponent {
   ) {}
 
   onGoogleLogin() {
-    firebase.login({
-      type: firebase.LoginType.GOOGLE,
-      ios: {
-        controller: topmost().ios.controller
-      }
-    }).then((res: any) => {
-      const user = new User({ uid: res.uid });
-      this._userService.createNewUserInstance(user).then(() => {
-        this.opening = !this.opening;
-        const timeout = setTimeout(() => {
-          clearTimeout(timeout);
-          this._router.navigate(["/home/dailyword"], {
-            animated: false,
-            clearHistory: true
+    firebase
+      .login({
+        type: firebase.LoginType.GOOGLE,
+        ios: {
+          controller: topmost().ios.controller
+        }
+      })
+      .then((res: any) => {
+        const user = new User({ uid: res.uid });
+        this._userService
+          .createNewUserInstance(user)
+          .then(() => {
+            this.opening = !this.opening;
+            const timeout = setTimeout(() => {
+              clearTimeout(timeout);
+              this._router.navigate(["/home/dailyword"], {
+                animated: false,
+                clearHistory: true
+              });
+            }, 300);
+          })
+          .catch((docWriteErr: any) => {
+            // TODO: give feedback to user
+            console.log(docWriteErr);
           });
-        }, 300);
-      }).catch((docWriteErr: any) => {
+      })
+      .catch((errorMessage: any) => {
         // TODO: give feedback to user
-        console.log(docWriteErr);
+        console.log(errorMessage);
       });
-    }).catch((errorMessage: any) => {
-      // TODO: give feedback to user
-      console.log(errorMessage);
-    });
   }
 }

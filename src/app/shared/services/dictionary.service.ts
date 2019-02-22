@@ -9,29 +9,34 @@ import { Dictionary } from "../models/dictionary.model";
   providedIn: "root"
 })
 export class DictionaryService {
-
   getWordDetails(docRefId): Promise<Dictionary> {
-    return firebase.firestore.collection("dictionary").doc(docRefId)
-      .get().then((doc) => {
+    return firebase.firestore
+      .collection("dictionary")
+      .doc(docRefId)
+      .get()
+      .then((doc) => {
         if (doc.exists) {
           const opts = queryToModelOptions(doc);
           const dictionaryWord = new Dictionary(opts);
 
           return dictionaryWord;
         } else {
-
           return undefined;
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         throw new DataFetchError(error);
       });
   }
 
   saveNewWord(wordOpts: any) {
-    return firebase.firestore.collection("dictionary").add(wordOpts)
+    return firebase.firestore
+      .collection("dictionary")
+      .add(wordOpts)
       .then((docRef: any) => {
         return Promise.resolve();
-      }).catch((error: any) => {
+      })
+      .catch((error: any) => {
         throw new Error(error);
       });
   }
@@ -44,5 +49,3 @@ export interface Item {
   level: string;
   usage: string;
 }
-
-

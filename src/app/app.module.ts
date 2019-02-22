@@ -6,19 +6,9 @@ import { AppComponent } from "./app.component";
 import { LoginComponent } from "./login/login.component";
 
 @NgModule({
-  bootstrap: [
-    AppComponent
-  ],
-  imports: [
-    NativeScriptModule,
-    AppRoutingModule
-  ],
-  declarations: [
-    AppComponent,
-    LoginComponent
-  ],
-  schemas: [
-    NO_ERRORS_SCHEMA
-  ]
+  bootstrap: [AppComponent],
+  imports: [NativeScriptModule, AppRoutingModule],
+  declarations: [AppComponent, LoginComponent],
+  schemas: [NO_ERRORS_SCHEMA]
 })
-export class AppModule { }
+export class AppModule {}

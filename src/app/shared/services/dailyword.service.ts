@@ -9,12 +9,13 @@ import { DailyWord } from "../models/dailyword.model";
   providedIn: "root"
 })
 export class DailyWordService {
-
-  constructor(private _ngZone: NgZone) { }
+  constructor(private _ngZone: NgZone) {}
 
   loadDailyWord(userUid: string) {
     return new Observable((subscriber: any) => {
-      firebase.firestore.collection("dailyword").doc(userUid)
+      firebase.firestore
+        .collection("dailyword")
+        .doc(userUid)
         .onSnapshot((doc: any) => {
           this._ngZone.run(async () => {
             const options = queryToModelOptions(doc);
@@ -33,14 +34,20 @@ export class DailyWordService {
     const currentWordTimestamp = dailyWordRef.addedOn;
     const today = new Date();
     const wordAddedOn = new Date(currentWordTimestamp);
-    return (today.getFullYear() + today.getMonth() + today.getDate())
-      > (wordAddedOn.getFullYear() + wordAddedOn.getMonth() + wordAddedOn.getDate())
+
+    return (
+      today.getFullYear() + today.getMonth() + today.getDate() >
+      wordAddedOn.getFullYear() + wordAddedOn.getMonth() + wordAddedOn.getDate()
+    );
   }
 
-  setShouldUpdateProp (docId: string, value: boolean): Promise<any> {
-    return firebase.firestore.collection("dailyword").doc(docId).update({
-      should_update: value
-    });
+  setShouldUpdateProp(docId: string, value: boolean): Promise<any> {
+    return firebase.firestore
+      .collection("dailyword")
+      .doc(docId)
+      .update({
+        should_update: value
+      });
   }
 
   private handleErrors(error: Response): Observable<never> {

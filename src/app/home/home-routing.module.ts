@@ -7,7 +7,9 @@ import { NewWordComponent } from "./new/new-word.component";
 
 const routes: Routes = [
   {
-    path: "", component: HomeComponent, children: [
+    path: "",
+    component: HomeComponent,
+    children: [
       { path: "dailyword", component: DailyWordComponent },
       { path: "new-word", component: NewWordComponent }
     ]
@@ -18,4 +20,4 @@ const routes: Routes = [
   imports: [NativeScriptRouterModule.forChild(routes)],
   exports: [NativeScriptRouterModule]
 })
-export class HomeRoutingModule { }
+export class HomeRoutingModule {}

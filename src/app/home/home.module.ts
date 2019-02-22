@@ -19,8 +19,6 @@ import { NativeScriptFormsModule } from "nativescript-angular";
     NewWordComponent,
     FloatLabel
   ],
-  schemas: [
-    NO_ERRORS_SCHEMA
-  ]
+  schemas: [NO_ERRORS_SCHEMA]
 })
-export class HomeModule { }
+export class HomeModule {}
