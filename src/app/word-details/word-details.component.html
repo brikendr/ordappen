@@ -1,0 +1,23 @@
+<GridLayout class="word-detail-screen" rows="2*, 10*, 10*">
+  <StackLayout row="0" class="action-bar" >
+    <Button class="fa menu-icon actionbar-title" text="&#xf177;" (tap)="navigateBack()"></Button>
+  </StackLayout>
+  <!-- main content -->
+  <FlexboxLayout row="1" class="top-content" flexDirection="column"  justifyContent="space-around" alignItems="center" >
+    <StackLayout>
+      <Label [text]="word.description" class="title"></Label>
+      <Label [text]="word.type.toLowerCase()" class="subtitle"></Label>
+    </StackLayout>
+    <Label textWrap="true" [text]="word.explanationEng" class="description"></Label>
+    <Label [text]="word.level" class="level"></Label>
+  </FlexboxLayout>
+  <ScrollView row="2" class="examples" background="#ff0154" orientation="vertical" sdkExampleTitle sdkToggleNavButton>
+    <StackLayout *ngIf="word.examples">
+      <GridLayout *ngFor="let item of word.examples" class="card" rows="5*, *">
+        <Label class="example-item" [text]="item.description" row="0" textWrap="true"></Label>
+        <Label class="example-author" text="added by Brikend Rama" row="1"></Label>
+      </GridLayout>
+    </StackLayout>
+  </ScrollView>
+  <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+</GridLayout>

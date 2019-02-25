@@ -6,6 +6,7 @@
   <FlexboxLayout row="1" justifyContent="space-around" flexDirection="column" alignItems="center">
     <StackLayout>
       <Label [text]="word.description" [fontSize]="getFocusWordSize(word.description.length)" class="focus-word"
+        (tap)="goToWordDetails(word.id)"
         textWrap="true"></Label>
       <Button class="hr thick"></Button>
     </StackLayout>

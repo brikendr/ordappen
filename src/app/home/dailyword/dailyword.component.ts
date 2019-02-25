@@ -6,6 +6,7 @@ import { DailyWord } from "~/app/shared/models/dailyword.model";
 import { DictionaryService } from "~/app/shared/services/dictionary.service";
 import { Dictionary } from "~/app/shared/models/dictionary.model";
 import { UserService } from "~/app/shared/services/user.service";
+import { RouterExtensions } from "nativescript-angular";
 
 const firebase = require("nativescript-plugin-firebase/app");
 
@@ -23,7 +24,8 @@ export class DailyWordComponent implements OnInit, OnDestroy {
   constructor(
     private _dailyWordService: DailyWordService,
     private _dictionaryService: DictionaryService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _router: RouterExtensions
   ) {}
 
   ngOnInit(): void {
@@ -74,5 +76,11 @@ export class DailyWordComponent implements OnInit, OnDestroy {
       default:
         return 10;
     }
+  }
+
+  goToWordDetails (wordId: string): void {
+    this._router.navigate([`word-details/${wordId}`], {
+      animated: false
+    })
   }
 }
