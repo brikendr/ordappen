@@ -12,11 +12,7 @@ import { NativeScriptFormsModule } from "nativescript-angular";
     NativeScriptFormsModule,
     HomeRoutingModule
   ],
-  declarations: [
-    HomeComponent,
-    DailyWordComponent,
-    NewWordComponent,
-  ],
+  declarations: [HomeComponent, DailyWordComponent, NewWordComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class HomeModule {}

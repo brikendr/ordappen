@@ -78,9 +78,9 @@ export class DailyWordComponent implements OnInit, OnDestroy {
     }
   }
 
-  goToWordDetails (wordId: string): void {
+  goToWordDetails(wordId: string): void {
     this._router.navigate([`word-details/${wordId}`], {
       animated: false
-    })
+    });
   }
 }

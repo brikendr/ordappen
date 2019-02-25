@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit
-} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { switchMap } from "rxjs/operators";
 import { Page } from "ui/page";
@@ -41,15 +38,15 @@ export class WordDetailsComponent implements OnInit {
           })
           .catch((e: any) => {
             this._isLoading = false;
-          })
+          });
       });
   }
 
   navigateBack() {
-    this._router.navigate(['/'], {
+    this._router.navigate(["/"], {
       animated: false,
       clearHistory: true
-    })
+    });
   }
 
   get isLoading(): boolean {
