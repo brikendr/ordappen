@@ -67,6 +67,19 @@ export class WordComponent implements OnInit {
     return this._randomImageObj;
   }
 
+  getFocusWordSize(wordLength: number) {
+    switch (true) {
+      case wordLength <= 5:
+        return 40;
+      case wordLength > 5 && wordLength <= 15:
+        return 30;
+      case wordLength > 15 && wordLength <= 30:
+        return 20;
+      default:
+        return 10;
+    }
+  }
+
   goBack() {
     this._router.back();
   }

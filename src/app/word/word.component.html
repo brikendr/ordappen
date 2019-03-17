@@ -9,25 +9,32 @@
           src="~/assets/icons/back-icon@3x.png"></Image>
 
         <Button col="2" row="0" class="btn btn-rounded-sm" padding="5" textTransform="none" backgroundColor="#FFFFFF"
-          color="#3b75ff" [text]="'#' + word.type" fontSize="12" height="25"></Button>
+          color="#FF7761" [text]="'#' + word.type" fontSize="12" height="25"></Button>
       </GridLayout>
 
-      <GridLayout columns="auto,*,auto" rows="auto" col="0" row="2" marginBottom="20">
-        <Label col="0" row="0" class="font-weight-bold" paddingLeft="20" fontSize="30" [color]="randomImage.color"
-          [text]="word.description"></Label>
-        <Image col="2" row="0" marginRight="10" height="45" width="45" src="~/images/shape7@3x.png"></Image>
+      <GridLayout columns="auto" rows="auto" col="0" row="2" marginBottom="20">
+        <Label col="0" row="0" class="font-weight-bold focusword" [fontSize]="getFocusWordSize(word.description.length)" [text]="word.description"></Label>
       </GridLayout>
 
     </GridLayout>
 
     <StackLayout col="0" row="1" orientation="horizontal" height="60" margin="5">
       <GridLayout rows="*" columns="*,*,*">
-        <Image col="0" row="0" height="25" width="25" margin="10" src="~/assets/icons/new-word@3x.png">
-        </Image>
-        <Image col="1" row="0" height="25" width="25" margin="10" src="~/assets/icons/new-word@3x.png">
-        </Image>
-        <Image col="3" row="0" height="25" width="25" margin="10" src="~/assets/icons/new-word@3x.png">
-        </Image>
+        <StackLayout col="0" row="0">
+          <Image height="25" width="25" margin="10" src="~/assets/icons/add-item@3x.png">
+          </Image>
+          <Label text="New Example" class="actionbtn-label"></Label>
+        </StackLayout>
+        <StackLayout col="1" row="0">
+          <Image height="25" width="25" margin="10" src="~/assets/icons/favorite@3x.png">
+          </Image>
+          <Label text="Mark Favorite" class="actionbtn-label"></Label>
+        </StackLayout>
+        <StackLayout col="2" row="0">
+          <Image class="action-btn" height="25" width="25" margin="10" src="~/assets/icons/check@3x.png">
+          </Image>
+          <Label text="Mark Learned" class="actionbtn-label"></Label>
+        </StackLayout>
       </GridLayout>
     </StackLayout>
 

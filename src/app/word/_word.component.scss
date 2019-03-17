@@ -7,6 +7,19 @@
   background-size: cover;
 }
 
+.focusword {
+  background-color: rgba($color: #FF7761, $alpha: 0.7);
+  padding: 5;
+  padding-left: 20;
+  padding-right: 20;
+  color: white;
+  visibility: none;
+	animation-name: slideInRight;
+	animation-duration: 0.5s;
+	animation-fill-mode: forwards;
+	animation-delay: 0.10s;
+}
+
 .example-item {
   margin-top: 10;
   font-size: 14;
@@ -21,4 +34,9 @@
   font-size: 12;
   margin-top: 15;
   text-align: right;
+}
+
+.actionbtn-label {
+  text-align: center;
+  font-size: 11;
 }

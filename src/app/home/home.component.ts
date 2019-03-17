@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _isLoading: boolean = false;
   private _dataSubscription: Subscription;
   private _word: Dictionary;
+  private _weeklyWords: Array<Dictionary> = [];
+  private _favoriteWords: Array<Dictionary> = [];
   private _randomImageObj: any;
 
   constructor(
@@ -39,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             this._dictionaryService
               .getWordDetails(dailyWord.todaysWord)
               .then((word: Dictionary) => {
+                this.fetchWeeklyWords(dailyWord.thisWeek);
                 this._randomImageObj = backgroundColorCombo();
                 this._word = word;
                 this._isLoading = false;
@@ -49,6 +52,21 @@ export class HomeComponent implements OnInit, OnDestroy {
           );
       });
     }
+  }
+
+  async fetchWeeklyWords(wordIdList: Array<string>): Promise<void> {
+    const weeklyWords = [];
+    for (const wordID of wordIdList) {
+      await new Promise((resolve) =>
+        this._dictionaryService
+          .getWordDetails(wordID)
+          .then((word: Dictionary) => {
+            weeklyWords.push(word);
+            resolve();
+          })
+      );
+    }
+    this._weeklyWords = weeklyWords;
   }
 
   ngOnDestroy(): void {
@@ -64,6 +82,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   get word(): Dictionary {
     return this._word;
+  }
+
+  get weeklyWords(): Array<Dictionary> {
+    return this._weeklyWords;
+  }
+  get favoriteWords(): Array<Dictionary> {
+    return this._favoriteWords;
   }
 
   getFocusWordSize(wordLength: number) {

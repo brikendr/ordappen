@@ -10,10 +10,6 @@ export const queryToModelOptions = (doc: any) => {
 export const backgroundColorCombo = () => {
   const data = [
     {
-      backgroundImage: "~/assets/icons/background.jpg",
-      color: "#FFFFFF"
-    },
-    {
       backgroundImage: "~/assets/icons/background-1.jpg",
       color: "#000000"
     },

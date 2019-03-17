@@ -29,7 +29,9 @@
 	font-family: "Assistant-SemiBold","Assistant ExtraLight";
 	text-transform: capitalize;
 	text-justify: justify;
+	background-color: rgba($color: #FF7761, $alpha: 0.7);
 	color: $background-light;
+	padding: 5;
 	opacity: 0;
 	animation-name: fadeIn;
 	animation-duration: 0.5s;
@@ -42,4 +44,9 @@
 }
 .homescreen {
   background-color: $background-light;
+}
+
+.menu-bar {
+	border-top-color: rgba($color: #FF7761, $alpha: 0.4);
+	border-top-width: 1;
 }
