@@ -1,3 +1,5 @@
+<ActionBar flat="true" backgroundColor="#FFFFFF" color="#000000">
+</ActionBar>
 <GridLayout rows="50, *" class="main-container">
   <AbsoluteLayout row="1">
     <StackLayout width="100%" #container>
@@ -51,5 +53,5 @@
       </StackLayout>
     </StackLayout>
   </AbsoluteLayout>
+  <ActivityIndicator [busy]="isProcessing"></ActivityIndicator>
 </GridLayout>
-<ActivityIndicator [busy]="isProcessing"></ActivityIndicator>

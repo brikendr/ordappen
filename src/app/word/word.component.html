@@ -1,0 +1,50 @@
+<GridLayout orientation="vertical" width="100%" height="100%" columns="*" rows="*,auto"
+  [marginTop]='this.isIOS ? "-20" : ""'>
+
+  <StackLayout *ngIf="word" col="0" row="0" backgroundColor="#FFFFFF">
+    <GridLayout class="focus-word-detail" columns="*" rows="auto,*,auto" height="200" [backgroundImage]="randomImage.backgroundImage">
+
+      <GridLayout columns="auto,*,auto" rows="auto" col="0" row="0">
+        <Image col="0" row="0" marginLeft="20" marginTop="10" height="25" width="35" (tap)="goBack()"
+          src="~/assets/icons/back-icon@3x.png"></Image>
+
+        <Button col="2" row="0" class="btn btn-rounded-sm" padding="5" textTransform="none" backgroundColor="#FFFFFF"
+          color="#3b75ff" [text]="'#' + word.type" fontSize="12" height="25"></Button>
+      </GridLayout>
+
+      <GridLayout columns="auto,*,auto" rows="auto" col="0" row="2" marginBottom="20">
+        <Label col="0" row="0" class="font-weight-bold" paddingLeft="20" fontSize="30" [color]="randomImage.color"
+          [text]="word.description"></Label>
+        <Image col="2" row="0" marginRight="10" height="45" width="45" src="~/images/shape7@3x.png"></Image>
+      </GridLayout>
+
+    </GridLayout>
+
+    <StackLayout col="0" row="1" orientation="horizontal" height="60" margin="5">
+      <GridLayout rows="*" columns="*,*,*">
+        <Image col="0" row="0" height="25" width="25" margin="10" src="~/assets/icons/new-word@3x.png">
+        </Image>
+        <Image col="1" row="0" height="25" width="25" margin="10" src="~/assets/icons/new-word@3x.png">
+        </Image>
+        <Image col="3" row="0" height="25" width="25" margin="10" src="~/assets/icons/new-word@3x.png">
+        </Image>
+      </GridLayout>
+    </StackLayout>
+
+    <Label class="font-weight-bold" marginTop="10" paddingLeft="10" fontSize="20" color="#333333"
+      text="Word Usage"></Label>
+
+    <ListView class="list-group" [items]="word.examples" height="500" backgroundColor="#FFFFFF">
+      <ng-template let-example="item">
+        <GridLayout orientation="horizontal" class="list-group-item" rows="auto" columns="auto,*,auto">
+          <StackLayout col="1" row="0" marginLeft="15">
+            <Label class="example-item" marginTop="5" [text]="example.description" color="#999999"
+              textWrap="true"></Label>
+            <Label class="example-author" marginTop="5" text="Added by: Brikend Rama" color="#999999"></Label>
+          </StackLayout>
+        </GridLayout>
+      </ng-template>
+    </ListView>
+    <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+  </StackLayout>
+</GridLayout>

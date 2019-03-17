@@ -3,7 +3,6 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { HomeComponent } from "./home.component";
 import { HomeRoutingModule } from "./home-routing.module";
 import { DailyWordComponent } from "./dailyword/dailyword.component";
-import { NewWordComponent } from "./new/new-word.component";
 import { NativeScriptFormsModule } from "nativescript-angular";
 
 @NgModule({
@@ -12,7 +11,7 @@ import { NativeScriptFormsModule } from "nativescript-angular";
     NativeScriptFormsModule,
     HomeRoutingModule
   ],
-  declarations: [HomeComponent, DailyWordComponent, NewWordComponent],
+  declarations: [HomeComponent, DailyWordComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class HomeModule {}

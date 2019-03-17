@@ -1,19 +1,82 @@
-<ActionBar title="" class="action-bar" flat="true">
-  <ActionItem ios.position="left" android.position="popup">
-    <StackLayout>
-      <Button class="fa menu-icon" text="&#xf0c9;" fontSize="35" (tap)="toggleMenu()"></Button>
+<GridLayout orientation="vertical" width="100%" height="100%" columns="*" rows="*,auto">
+  <StackLayout *ngIf="word" col="0" row="0" backgroundColor="#f8f8f8">
+    <StackLayout backgroundColor="#FF7761" paddingBottom="25" marginTop="-10">
+      <Label text="Dagens Ord" class="font-weight-bold align-center" color="#FFFFFF" padding="15" fontSize="24"></Label>
     </StackLayout>
-  </ActionItem>
-</ActionBar>
 
-<GridLayout class="homescreen">
-  <!-- main content -->
-  <router-outlet></router-outlet>
+    <!-- Word in Focus -->
+    <StackLayout class="focus-word-container" paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="5" marginTop="-20"
+      [backgroundImage]="randomImage.backgroundImage" borderRadius="5" height="180" width="90%" (tap)="goToWordDetails(word.id)"
+      stretch="aspectFit">
+      <GridLayout columns="*" rows="auto,*,auto" height="100%">
+        <Label col="0" row="1" class="font-weight-bold align-center focus-word" [color]="randomImage.color" [fontSize]="getFocusWordSize(word.description.length)" [text]="word.description"></Label>
+        <FlexboxLayout col="0" row="2" marginBottom="5" justifyContent="space-between" flexDirection="row">
+          <Label class="font-weight-bold" fontSize="16" color="#FFFFFF" [text]="'#' + word.type"></Label>
+          <Button marginRight="5" width="50" height="20" class="fa btn-rounded-sm" text="&#xf005; 3" color="#FFFFFF" backgroundColor="#FF7761"></Button>
+        </FlexboxLayout>
+      </GridLayout>
+    </StackLayout>
+    <!-- Word in Focus -->
 
-  <!-- menu -->
-  <GridLayout #menuContainer [rows]="gridRowLayout" class="menu-container">
-    <Label *ngFor="let item of menuItems; let i = index" [row]="i" [text]="item.name" class="menu-item raised"
-      (tap)="navigateToPath(item.path)"></Label>
-  </GridLayout>
+    <ScrollView orientation="vertical"  marginTop="10">
+      <StackLayout>
+        <GridLayout columns="auto" rows="auto">
+          <Label col="0" row="0" class="font-weight-bold" paddingLeft="10" fontSize="20" color="#000000"
+            text="Forklaring"></Label>
+        </GridLayout>
 
+
+        <ScrollView orientation="vertical" height="150">
+            <TextView editable="false" class="desc regular">
+              <FormattedString>
+                <Span [text]="word.explanationEng"></Span>
+              </FormattedString>
+            </TextView>
+        </ScrollView>
+
+        <GridLayout columns="auto" rows="auto">
+          <Label col="0" row="0" class="font-weight-bold" paddingLeft="10" fontSize="20" color="#000000"
+            text="Denne Uka"></Label>
+        </GridLayout>
+
+        <ScrollView orientation="horizontal">
+          <StackLayout orientation="horizontal">
+            <!-- Word-Card -->
+            <StackLayout margin="10" height="130" width="110" backgroundColor="#FFFFFF" borderRadius="5">
+              <StackLayout horizontalAlignment="center" verticalAlignment="center" marginTop="20">
+                <Image height="50" width="50" src="~/assets/icons/profile@3x.png" borderRadius="50"></Image>
+                <Label fontSize="14" class="font-weight-bold align-center" color="#000000" text="Høflig"></Label>
+                <Label fontSize="12" color="#999999" text="3 eksempler" horizontalAlignment="center" verticalAlignment="center"></Label>
+              </StackLayout>
+              <Button width="75" fontSize="11" class="btn-rounded-lg" text="Se Ordet" textTransform="none" marginBottom="5"
+                backgroundColor="#FF7761" color="#FFFFFF" (tap)="onButtonTap()"></Button>
+            </StackLayout>
+            <!-- Word-Card -->
+          </StackLayout>
+        </ScrollView>
+
+        <GridLayout columns="auto" rows="auto">
+          <Label col="0" row="0" class="font-weight-bold" paddingLeft="10" fontSize="20" color="#000000"
+            text="Favoriter"></Label>
+        </GridLayout>
+
+        <ScrollView orientation="horizontal">
+          <StackLayout orientation="horizontal">
+        
+          </StackLayout>
+        </ScrollView>
+
+
+      </StackLayout>
+    </ScrollView>
+    <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+  </StackLayout>
+
+  <StackLayout col="0" row="1" orientation="horizontal" backgroundColor="#FFFFFF" height="50">
+    <GridLayout rows="*" columns="*,*,*">
+      <Image col="0" row="0" (tap)="navigate('new-word')" height="35" width="35" margin="10" src="~/assets/icons/new-word@3x.png"></Image>
+      <Image col="1" row="0" (tap)="onButtonTap()" height="60" width="60" margin="10" src="~/assets/icons/home@3x.png"></Image>
+      <Image col="2" row="0" (tap)="onButtonTap()" height="35" width="35" margin="10" src="~/assets/icons/profile@3x.png"></Image>
+    </GridLayout>
+  </StackLayout>
 </GridLayout>

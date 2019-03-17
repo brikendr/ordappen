@@ -1,0 +1,24 @@
+@import '~nativescript-theme-core/css/core.light.css';
+@import './../../app-variables';
+@import './../../assets/css/animate.scss';
+
+.focus-word-detail {
+  background-image: url("~/assets/icons/background.jpg");
+  background-size: cover;
+}
+
+.example-item {
+  margin-top: 10;
+  font-size: 14;
+  margin-top: 5;
+	color: $light-grey;
+  font-size: 16;
+  text-transform: lowercase;
+  font-style: italic;
+}
+
+.example-author {
+  font-size: 12;
+  margin-top: 15;
+  text-align: right;
+}

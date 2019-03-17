@@ -4,12 +4,13 @@ import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./login/login.component";
-import { WordDetailsComponent } from "./word-details/word-details.component";
+import { NewWordComponent } from "./new-word/new-word.component";
+import { WordComponent } from "./word/word.component";
 
 @NgModule({
   bootstrap: [AppComponent],
   imports: [NativeScriptModule, AppRoutingModule],
-  declarations: [AppComponent, LoginComponent, WordDetailsComponent],
+  declarations: [AppComponent, LoginComponent, NewWordComponent, WordComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class AppModule {}

@@ -1,4 +1,6 @@
+@import '~nativescript-theme-core/css/core.light.css';
 @import '../../_app-variables.scss';
+@import '../../assets/css/animate.scss';
 
 .menu-icon {
  margin-top: 10;
@@ -10,22 +12,29 @@
   font-weight: normal;
 }
 
-.menu-item {
-  color: $text-color;
-  font-size: 22;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: center;
-  letter-spacing: 0.1;
-  padding: 30;
+.desc {
+	text-justify: justify;
+	font-size: 14;
+	color: $midnight-dark;
+	background-color: transparent;
+  border-color: transparent;
+  padding-left: 10;
 }
 
-.menu-container {
-  background-color: $background-light;
+.focus-word-container {
+  background-size:cover;
 }
 
-.menu-icon {
-  color: $midnight-dark;
+.focus-word {
+	font-family: "Assistant-SemiBold","Assistant ExtraLight";
+	text-transform: capitalize;
+	text-justify: justify;
+	color: $background-light;
+	opacity: 0;
+	animation-name: fadeIn;
+	animation-duration: 0.5s;
+	animation-fill-mode: forwards;
+	animation-delay: 0.10s;
 }
 
 .action-bar {

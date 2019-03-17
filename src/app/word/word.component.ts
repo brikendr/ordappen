@@ -4,16 +4,20 @@ import { switchMap } from "rxjs/operators";
 import { Page } from "ui/page";
 import { Dictionary } from "../shared/models/dictionary.model";
 import { DictionaryService } from "../shared/services/dictionary.service";
+import { backgroundColorCombo } from "../shared/utils/Conveniences";
 
+const platform = require("tns-core-modules/platform");
 @Component({
-  selector: "WordDetails",
+  selector: "Word",
   moduleId: module.id,
-  templateUrl: "./word-details.component.html",
-  styleUrls: ["./word-details.component.scss"]
+  templateUrl: "./word.component.html",
+  styleUrls: ["./word.component.scss"]
 })
-export class WordDetailsComponent implements OnInit {
+export class WordComponent implements OnInit {
+  isIOS: boolean;
   private _word: Dictionary;
   private _isLoading: boolean = false;
+  private _randomImageObj: any;
 
   constructor(
     private _dictionaryService: DictionaryService,
@@ -21,7 +25,15 @@ export class WordDetailsComponent implements OnInit {
     private _pageRoute: PageRoute,
     private page: Page
   ) {
-    this.page.actionBarHidden = true;
+    page.actionBarHidden = true;
+
+    if (platform.isIOS) {
+      this.isIOS = true;
+      page.statusBarStyle = "light";
+    } else {
+      page.backgroundSpanUnderStatusBar = true;
+      this.isIOS = false;
+    }
   }
 
   ngOnInit(): void {
@@ -33,6 +45,7 @@ export class WordDetailsComponent implements OnInit {
         this._dictionaryService
           .getWordDetails(wordId)
           .then((word: Dictionary) => {
+            this._randomImageObj = backgroundColorCombo();
             this._word = word;
             this._isLoading = false;
           })
@@ -42,18 +55,19 @@ export class WordDetailsComponent implements OnInit {
       });
   }
 
-  navigateBack() {
-    this._router.navigate(["/"], {
-      animated: false,
-      clearHistory: true
-    });
-  }
-
   get isLoading(): boolean {
     return this._isLoading;
   }
 
   get word(): Dictionary {
     return this._word;
+  }
+
+  get randomImage(): any {
+    return this._randomImageObj;
+  }
+
+  goBack() {
+    this._router.back();
   }
 }

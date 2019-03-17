@@ -1,14 +1,13 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  ElementRef,
-  ViewChild
-} from "@angular/core";
-import { RouterExtensions } from "nativescript-angular";
-import { AnimationCurve } from "ui/enums";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { RouterExtensions } from "nativescript-angular/router";
+import { Subscription } from "rxjs";
+import { finalize } from "rxjs/operators";
+import { Dictionary } from "../shared/models/dictionary.model";
+import { DailyWordService } from "../shared/services/dailyword.service";
+import { DictionaryService } from "../shared/services/dictionary.service";
 import { UserService } from "../shared/services/user.service";
-import { User } from "../shared/models/user.model";
+import { DailyWord } from "../shared/models/dailyword.model";
+import { backgroundColorCombo } from "../shared/utils/Conveniences";
 
 @Component({
   selector: "Home",
@@ -16,115 +15,85 @@ import { User } from "../shared/models/user.model";
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"]
 })
-export class HomeComponent implements OnInit, AfterViewInit {
-  @ViewChild("menuContainer") menuContainer: ElementRef;
-  menuIsOpen: boolean = false;
-  menuItems: Array<{ name: string; path: string }> = [];
-
-  private currentPath: string;
+export class HomeComponent implements OnInit, OnDestroy {
+  private _isLoading: boolean = false;
+  private _dataSubscription: Subscription;
+  private _word: Dictionary;
+  private _randomImageObj: any;
 
   constructor(
-    private _router: RouterExtensions,
-    private _userService: UserService
+    private _dailyWordService: DailyWordService,
+    private _dictionaryService: DictionaryService,
+    private _userService: UserService,
+    private _router: RouterExtensions
   ) {}
 
   ngOnInit(): void {
-    this._userService.isUserLoggedIn().then((loggedIn: boolean) => {
-      if (!loggedIn) {
-        return this._router.navigate(["/login"], {
-          clearHistory: true
-        });
-      }
-      this._userService
-        .getFirestoreUser()
-        .then((user: User) => {
-          this.menuItems.push({ name: "Hjem", path: "home/dailyword" });
-          if (user.writePriviledges) {
-            this.menuItems.push({ name: "Nytt Ord", path: "home/new-word" });
-          }
-          this.menuItems.push({ name: "Profil", path: "home/profile" });
-          this.menuItems.push({ name: "Logg ut", path: "logout" });
-          this.menuItems.push({ name: "Lukk", path: "" });
-        })
-        .catch((err: any) => {
-          // TODO: inform user
-          console.log("----- Could not get user infor");
-        });
+    if (!this._dataSubscription) {
+      this._isLoading = true;
+      this._userService.getUserUid().then((userUid: string) => {
+        this._dataSubscription = this._dailyWordService
+          .loadDailyWord(userUid)
+          .pipe(finalize(() => (this._isLoading = false)))
+          .subscribe((dailyWord: DailyWord) =>
+            this._dictionaryService
+              .getWordDetails(dailyWord.todaysWord)
+              .then((word: Dictionary) => {
+                this._randomImageObj = backgroundColorCombo();
+                this._word = word;
+                this._isLoading = false;
+              })
+              .catch((e: any) => {
+                this._isLoading = false;
+              })
+          );
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this._dataSubscription) {
+      this._dataSubscription.unsubscribe();
+      this._dataSubscription = null;
+    }
+  }
+
+  get isLoading(): boolean {
+    return this._isLoading;
+  }
+
+  get word(): Dictionary {
+    return this._word;
+  }
+
+  getFocusWordSize(wordLength: number) {
+    switch (true) {
+      case wordLength <= 5:
+        return 40;
+      case wordLength > 5 && wordLength <= 15:
+        return 30;
+      case wordLength > 15 && wordLength <= 30:
+        return 20;
+      default:
+        return 10;
+    }
+  }
+
+  onButtonTap(): void {
+    console.log("Button was presssesssd");
+  }
+
+  goToWordDetails(wordId: string): void {
+    this._router.navigate([`word/${wordId}`], {
+      animated: false
     });
   }
 
-  ngAfterViewInit(): void {
-    this.initializeMenu();
+  navigate(path: string): void {
+    this._router.navigate([path]);
   }
 
-  navigateToPath(path: string) {
-    if (path === "logout") {
-      return this.logout();
-    }
-    if (!path || path === this.currentPath) {
-      this.closeMenu();
-    } else {
-      this._router.navigate([path]).then(() => {
-        this.closeMenu();
-        this.currentPath = path;
-      });
-    }
-  }
-
-  initializeMenu() {
-    // set the origin point for the rotation
-    this.menuContainer.nativeElement.originX = 0;
-    this.menuContainer.nativeElement.originY = 0;
-
-    this.menuContainer.nativeElement.rotate = -90;
-    this.menuIsOpen = false;
-  }
-
-  toggleMenu() {
-    if (this.menuIsOpen) {
-      this.closeMenu();
-    } else {
-      this.openMenu();
-    }
-  }
-
-  openMenu() {
-    this.menuContainer.nativeElement
-      .animate({
-        rotate: 0,
-        curve: AnimationCurve.cubicBezier(1, 0.02, 0.45, 0.93),
-        duration: 200
-      })
-      .then(() => {
-        this.menuIsOpen = true;
-      });
-  }
-
-  closeMenu() {
-    this.menuContainer.nativeElement
-      .animate({
-        rotate: -90,
-        curve: AnimationCurve.cubicBezier(1, 0.02, 0.45, 0.93),
-        duration: 200
-      })
-      .then(() => {
-        this.menuIsOpen = false;
-      });
-  }
-
-  get gridRowLayout() {
-    let layout = "";
-    for (const item of this.menuItems) {
-      layout += "*,";
-    }
-
-    return layout.slice(0, layout.length - 1);
-  }
-
-  logout() {
-    this._userService.logOut();
-    this._router.navigate(["/login"], {
-      clearHistory: true
-    });
+  get randomImage(): any {
+    return this._randomImageObj;
   }
 }

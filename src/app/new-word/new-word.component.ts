@@ -6,7 +6,6 @@ import {
   DictionaryService,
   Item
 } from "~/app/shared/services/dictionary.service";
-import { Dictionary } from "~/app/shared/models/dictionary.model";
 import { RouterExtensions } from "nativescript-angular";
 
 import { screen, isIOS } from "platform";
