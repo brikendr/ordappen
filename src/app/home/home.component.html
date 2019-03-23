@@ -1,5 +1,5 @@
 <GridLayout orientation="vertical" width="100%" height="100%" columns="*" rows="*,auto">
-  <StackLayout *ngIf="word" col="0" row="0" backgroundColor="#FFFFFF">
+  <StackLayout *ngIf="word" col="0" row="0" backgroundColor="#F8F8F8">
     <StackLayout backgroundColor="#FF7761" paddingBottom="25" marginTop="-10">
       <Label text="Dagens Ord" class="font-weight-bold align-center" color="#FFFFFF" padding="15" fontSize="24"></Label>
     </StackLayout>
@@ -34,9 +34,9 @@
             </TextView>
         </ScrollView>
 
-        <GridLayout *ngIf="weeklyWords.length > 0" columns="auto" rows="auto">
-          <Label col="0" row="0" class="font-weight-bold" paddingLeft="10" fontSize="20" color="#000000"
-            [text]="'Denne Uka ' + weeklyWords.length"></Label>
+        <GridLayout *ngIf="weeklyWords.length > 0" columns="auto,*,auto" rows="auto">
+          <Label col="0" row="0" class="font-weight-bold" paddingLeft="10" fontSize="20" color="#000000" text="Denne Uka"></Label>
+          <Label col="2" row="0" class="font-weight-bold" marginRight="20" fontSize="14" color="#8d8d8d" [text]="weeklyWords.length"></Label>
         </GridLayout>
 
         <ScrollView *ngIf="weeklyWords.length > 0" orientation="horizontal">
@@ -44,12 +44,12 @@
             <!-- Word-Card -->
             <StackLayout  *ngFor="let item of weeklyWords" margin="10" height="130" width="110" backgroundColor="#FFFFFF" borderRadius="5">
               <StackLayout horizontalAlignment="center" verticalAlignment="center" marginTop="20">
-                <Image height="50" width="50" src="~/assets/icons/profile@3x.png" borderRadius="50"></Image>
+                <Image height="50" width="50" src="~/assets/icons/calendar@2x.png"></Image>
                 <Label fontSize="14" class="font-weight-bold align-center" color="#000000" [text]="item.description"></Label>
-                <Label fontSize="12" color="#999999" [text]="item.examples.length + ' eksempler'" horizontalAlignment="center" verticalAlignment="center"></Label>
+                <Label fontSize="12" color="#999999" [text]="item.examples.length + (item.examples.length > 1 ? ' Eksempler': ' Eksempel')" horizontalAlignment="center" verticalAlignment="center"></Label>
               </StackLayout>
               <Button width="75" fontSize="11" class="btn-rounded-lg" text="Se Ordet" textTransform="none" marginBottom="5"
-                backgroundColor="#FF7761" color="#FFFFFF" (tap)="goToWordDetails(item.id)"></Button>
+                backgroundColor="#015ECE" color="#FFFFFF" (tap)="goToWordDetails(item.id)"></Button>
             </StackLayout>
             <!-- Word-Card -->
           </StackLayout>
@@ -62,20 +62,20 @@
 
         <ScrollView *ngIf="favoriteWords.length > 0" orientation="horizontal">
           <StackLayout orientation="horizontal">
-        
           </StackLayout>
         </ScrollView>
-
-
       </StackLayout>
     </ScrollView>
     <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
   </StackLayout>
 
-  <StackLayout class="menu-bar" col="0" row="1" orientation="horizontal" height="50">
-    <GridLayout rows="*" columns="*,*">
-      <Image col="0" row="0" (tap)="navigate('new-word')" height="35" width="35" margin="10" src="~/assets/icons/new-word@3x.png"></Image>
-      <Image col="1" row="0" (tap)="onButtonTap()" height="35" width="35" margin="10" src="~/assets/icons/profile@3x.png"></Image>
+  <StackLayout class="menu-bar" col="0" row="1" orientation="horizontal" height="60">
+    <GridLayout rows="*" columns="*,*,*,*,*">
+      <Image col="0" row="0" (tap)="navigate('profile')" height="25" width="25" margin="10" src="~/assets/icons/profile@3x.png"></Image>
+      <!-- <Image col="1" row="0" (tap)="onButtonTap()" height="25" width="25" margin="10" src="~/assets/icons/folder@3x.png"></Image> -->
+      <Image col="2" row="0" (tap)="navigate('new-word')" height="50" width="50" margin="10" src="~/assets/icons/folder@3x.png"></Image>
+      <!-- <Image col="3" row="0" (tap)="onButtonTap()" height="25" width="25" margin="10" src="~/assets/icons/profile@3x.png"></Image> -->
+      <Image col="4" row="0" (tap)="navigate('settings')" height="25" width="25" margin="10" src="~/assets/icons/settings.png"></Image>
     </GridLayout>
   </StackLayout>
 </GridLayout>

@@ -13,6 +13,7 @@ import * as utils from "utils/utils";
 import * as frame from "ui/frame";
 import { UserService } from "~/app/shared/services/user.service";
 import { User } from "~/app/shared/models/user.model";
+import { TNSFancyAlert, TNSFancyAlertButton } from "nativescript-fancyalert";
 
 declare let UIView;
 
@@ -24,14 +25,13 @@ declare let UIView;
 })
 export class NewWordComponent implements OnInit {
   @ViewChild("container") container: ElementRef;
+  currentSelectedItem: string = "";
 
-  item: Item;
-  orderTaker: number = 0;
-  currentDetailType: string = "description";
-  halfScreenHeight = screen.mainScreen.heightDIPs / 2 - 100;
-  halfScreenWidth = screen.mainScreen.widthDIPs / 2 - 40;
-  prevDeltaX: number = 0;
-  defaultPersonX: 0;
+  /* Properties */
+  descriptionTxt: string = "";
+  explanationTxt: string = "";
+  levelTxt: string = "";
+  usageExamples: Array<string> = [];
   wordType: string = "";
 
   private _isProcessing: boolean = false;
@@ -52,12 +52,16 @@ export class NewWordComponent implements OnInit {
       .getAllTypeDocs()
       .then((typeList: Array<Type>) => {
         this._types = typeList;
-        this.wordType = typeList[0].name;
+        this.wordType = typeList[0].name.toUpperCase();
         this._isProcessing = false;
         // this.container.nativeElement.translateY = this.halfScreenHeight;
       })
       .catch((error: any) => {
-        alert("Something went wrong! Sorry!");
+        TNSFancyAlert.showError(
+          "Error!",
+          "Something went wrong! Try again later.",
+          "Close"
+        );
         this._isProcessing = false;
       });
   }
@@ -79,29 +83,38 @@ export class NewWordComponent implements OnInit {
     });
   }
 
-  submit(item: Item) {
+  submit() {
     this._isProcessing = true;
     this._userService
       .getFirestoreUser()
       .then((user: User) => {
         const opts = {
-          description: this.item.description,
-          explanation_eng: this.item.explanation,
-          level: this.item.level,
+          description: this.descriptionTxt,
+          explanation_eng: this.explanationTxt,
+          level: this.levelTxt,
           type: this.wordType.toLowerCase(),
-          examples: this.mapWordExamples(user, this.item.usage.split(";")),
+          examples: this.mapWordExamples(user, this.usageExamples),
           user_id: user.googleUserUid
         };
         this._dictionaryService
           .saveNewWord(opts)
           .then(() => {
+            TNSFancyAlert.showSuccess(
+              "Success!",
+              "The new word was added to the dictionary",
+              "OK"
+            );
             this.routerExtensions.navigate(["/"], {
               animated: false,
               clearHistory: true
             });
           })
           .catch((error: any) => {
-            alert("Something went wrong! Sorry!");
+            TNSFancyAlert.showError(
+              "Error!",
+              "Something went wrong! Try again later.",
+              "Close"
+            );
             this._isProcessing = false;
           });
       })
@@ -130,42 +143,10 @@ export class NewWordComponent implements OnInit {
   }
 
   setDefaultItem() {
-    this.item = <any>{
-      id: null,
-      description: "",
-      explanation: "",
-      level: ""
-    };
-  }
-
-  selectItemDetail(inputItem, selectedDetail) {
-    const tmpHeight = this.halfScreenHeight;
-    const currentHeight = {
-      description: 0,
-      explanation: -(tmpHeight / 4),
-      level: -(tmpHeight / 2),
-      examples: -(tmpHeight + (isIOS ? 10 : 30)),
-      type: -(tmpHeight + (isIOS ? 110 : 130))
-    };
-
-    if (this.currentDetailType === selectedDetail) {
-      return;
-    }
-
-    this.currentDetailType = selectedDetail;
-
-    if (inputItem && selectedDetail !== "type") {
-      if (isIOS) {
-        inputItem.ios.inputAccessoryView = UIView.alloc().init();
-      }
-      inputItem.focus();
-    } else {
-      this.dismissSoftKeybaord();
-    }
-    this.container.nativeElement.animate({
-      translate: { x: 0, y: currentHeight[selectedDetail] },
-      duration: 200
-    });
+    this.descriptionTxt = "";
+    this.explanationTxt = "";
+    this.levelTxt = "";
+    this.usageExamples = [];
   }
 
   dismissSoftKeybaord() {
@@ -176,7 +157,51 @@ export class NewWordComponent implements OnInit {
     }
   }
 
+  selectItemDetail(inputItem, selectedDetail) {
+    if (this.currentSelectedItem === selectedDetail) {
+      return;
+    }
+
+    this.currentSelectedItem = selectedDetail;
+
+    if (
+      inputItem &&
+      selectedDetail !== "ctype" &&
+      selectedDetail !== "examples"
+    ) {
+      if (isIOS) {
+        inputItem.ios.inputAccessoryView = UIView.alloc().init();
+      }
+      inputItem.focus();
+    } else {
+      this.dismissSoftKeybaord();
+    }
+  }
+
   isSelected(name) {
-    return this.currentDetailType === name;
+    return this.currentSelectedItem === name;
+  }
+
+  openExampleModal() {
+    const initialValue = null;
+    TNSFancyAlert.showTextField(
+      "Usage Example",
+      initialValue,
+      new TNSFancyAlertButton({
+        label: "Save",
+        action: (value: any) => {
+          if (value !== "") {
+            this.usageExamples.push(value);
+          }
+        }
+      }),
+      undefined,
+      "#FF7761",
+      "Add example!",
+      `Write an example where you showcase the word usage`,
+      undefined,
+      undefined,
+      300
+    );
   }
 }

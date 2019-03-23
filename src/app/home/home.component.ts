@@ -9,6 +9,8 @@ import { UserService } from "../shared/services/user.service";
 import { DailyWord } from "../shared/models/dailyword.model";
 import { backgroundColorCombo } from "../shared/utils/Conveniences";
 
+import { TNSFancyAlert, TNSFancyAlertButton } from "nativescript-fancyalert";
+
 @Component({
   selector: "Home",
   moduleId: module.id,
@@ -104,18 +106,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  onButtonTap(): void {
-    console.log("Button was presssesssd");
-  }
-
   goToWordDetails(wordId: string): void {
-    this._router.navigate([`word/${wordId}`], {
-      animated: false
-    });
+    this._router.navigate([`word/${wordId}`]);
   }
 
   navigate(path: string): void {
-    this._router.navigate([path]);
+    this._router.navigate([path]).catch((e: any) => {
+      TNSFancyAlert.showError(
+        "Navigation Error",
+        "Navigating to this screen not supported yet!",
+        "OK"
+      );
+    });
   }
 
   get randomImage(): any {

@@ -47,5 +47,4 @@ export interface Item {
   description: string;
   explanation: string;
   level: string;
-  usage: string;
 }
