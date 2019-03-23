@@ -2,6 +2,6 @@
   "editor.tabSize": 2,
   "files.exclude": {
     "**/*.css": true,
-    "**/*.js": true
+    "src/app/**/*.js": true
   }
 }
