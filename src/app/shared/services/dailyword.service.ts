@@ -21,7 +21,7 @@ export class DailyWordService {
             const options = queryToModelOptions(doc);
             const dailyWord = new DailyWord(options);
             const shouldUpdate = this.checkIfShouldUpdate(dailyWord);
-            if (shouldUpdate) {
+            if (!dailyWord.shouldUpdate && shouldUpdate) {
               await this.setShouldUpdateProp(doc.id, shouldUpdate);
             }
             subscriber.next(dailyWord);
